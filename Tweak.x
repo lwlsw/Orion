@@ -1,3 +1,5 @@
+static bool disablelps;
+
 @interface _UIButtonFeedbackGeneratorConfiguration : NSObject
 + (id)prominentConfiguration;
 @end
@@ -72,7 +74,11 @@
 
 %hook _UITouchDurationObservingGestureRecognizer
 - (CGFloat)minimumDurationRequired {
-	return 200000000000.0;
+	if(disablelps){
+		return 200000000000.0;
+	}else{
+		return %orig;
+	}
 }
 
 // - (CGFloat)touchForce {
@@ -409,6 +415,9 @@ static BOOL useSpecialAnimation = NO;
 %end
 
 %ctor {
+	NSDictionary *tweakPrefs = [[[NSDictionary alloc] initWithContentsOfFile:@"/var/mobile/Library/Preferences/com.atwiiks.orionprefs.plist"]?:[NSDictionary dictionary] copy];
+	disablelps = (BOOL)[[tweakPrefs objectForKey:@"disablelps"]?:@YES boolValue];
+
 	%init;
 	if ([NSBundle mainBundle] && ![[[NSBundle mainBundle] bundleIdentifier] isEqualToString:@"com.apple.springboard"]) {
 		%init(Apps);

@@ -1,9 +1,9 @@
 Package: com.atwiiks.orion
 Name: Orion
 Depends: mobilesubstrate
-Version: 1.0.4
+Version: 1.0.4.1
 Architecture: iphoneos-arm
 Description: Real Peek & Pop on iOS 13
-Maintainer: Andrew Wiik
-Author: Andrew Wiik
+Maintainer: Andrew Wiik, whoami
+Author: Andrew Wiik, whoami
 Section: Tweaks
