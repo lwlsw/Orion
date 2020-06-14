@@ -86,142 +86,142 @@ static bool disablelps;
 // }
 %end
 
-%hook UILongPressGestureRecognizer
-%property (nonatomic, retain) NSNumber *orn_lp;
-%property (nonatomic, retain) NSNumber *firstTouch;
+// %hook UILongPressGestureRecognizer
+// %property (nonatomic, retain) NSNumber *orn_lp;
+// %property (nonatomic, retain) NSNumber *firstTouch;
 
-- (id)initWithTarget:(id)target action:(SEL)action {
-	UILongPressGestureRecognizer *recognizer = %orig;
-	if (action && [NSStringFromSelector(action) isEqualToString:@"_handleMenuGesture:"]) {
-		recognizer.orn_lp = @(1);
-	}
-	return recognizer;
-}
+// - (id)initWithTarget:(id)target action:(SEL)action {
+// 	UILongPressGestureRecognizer *recognizer = %orig;
+// 	if (action && [NSStringFromSelector(action) isEqualToString:@"_handleMenuGesture:"]) {
+// 		recognizer.orn_lp = @(1);
+// 	}
+// 	return recognizer;
+// }
 
--(void)addTarget:(id)target action:(SEL)action {
-	%orig;
-	if (action && [NSStringFromSelector(action) isEqualToString:@"_handleMenuGesture:"]) {
-		self.orn_lp = @(1);
-		[self setMinimumPressDuration:0.5];
-		[self setDelay:0.0];
-		[self setDelegate:nil];
-	}
-}
+// -(void)addTarget:(id)target action:(SEL)action {
+// 	%orig;
+// 	if (action && [NSStringFromSelector(action) isEqualToString:@"_handleMenuGesture:"]) {
+// 		self.orn_lp = @(1);
+// 		[self setMinimumPressDuration:0.5];
+// 		[self setDelay:0.0];
+// 		[self setDelegate:nil];
+// 	}
+// }
 
--(void)touchesBegan:(NSSet *)touches withEvent:(id)arg2 {
-	if (@available(iOS 11, *)) {
-		if (self.orn_lp) {
-			if (touches) {
-				NSArray *allTouches = [touches allObjects];
-				if ([allTouches count] > 0) {
-					UITouch *touch = [allTouches objectAtIndex:0];
-					if (touch.force > 2.5) {
+// -(void)touchesBegan:(NSSet *)touches withEvent:(id)arg2 {
+// 	if (@available(iOS 11, *)) {
+// 		if (self.orn_lp) {
+// 			if (touches) {
+// 				NSArray *allTouches = [touches allObjects];
+// 				if ([allTouches count] > 0) {
+// 					UITouch *touch = [allTouches objectAtIndex:0];
+// 					if (touch.force > 2.5) {
 						
-						[self setState:UIGestureRecognizerStateBegan];
-						return;
-					}
-					self.firstTouch = @(touch.timestamp);
-				}
-			}
-		}
-	}
-	%orig;
-}
+// 						[self setState:UIGestureRecognizerStateBegan];
+// 						return;
+// 					}
+// 					self.firstTouch = @(touch.timestamp);
+// 				}
+// 			}
+// 		}
+// 	}
+// 	%orig;
+// }
 
--(void)touchesMoved:(NSSet *)touches withEvent:(id)arg2 {
-	if (@available(iOS 11, *)) {
-		if (self.orn_lp) {
-			if (touches) {
-				NSArray *allTouches = [touches allObjects];
-				if ([allTouches count] > 0) {
-					UITouch *touch = [allTouches objectAtIndex:0];
-					if (touch.force > 2.5 && self.firstTouch && (touch.timestamp - [self.firstTouch floatValue]) > 0.15) {
+// -(void)touchesMoved:(NSSet *)touches withEvent:(id)arg2 {
+// 	if (@available(iOS 11, *)) {
+// 		if (self.orn_lp) {
+// 			if (touches) {
+// 				NSArray *allTouches = [touches allObjects];
+// 				if ([allTouches count] > 0) {
+// 					UITouch *touch = [allTouches objectAtIndex:0];
+// 					if (touch.force > 2.5 && self.firstTouch && (touch.timestamp - [self.firstTouch floatValue]) > 0.15) {
 						
-						[self setState:UIGestureRecognizerStateBegan];
-						return;
-					}
-				}
-			}
-			return;
-		}
-	}
-	%orig;
-}
+// 						[self setState:UIGestureRecognizerStateBegan];
+// 						return;
+// 					}
+// 				}
+// 			}
+// 			return;
+// 		}
+// 	}
+// 	%orig;
+// }
 
--(void)setMinimumPressDuration:(CGFloat)duration {
-	if (self.orn_lp) {
-		duration = 200000.00;
-	}
-	%orig(duration);
-}
+// -(void)setMinimumPressDuration:(CGFloat)duration {
+// 	if (self.orn_lp) {
+// 		duration = 200000.00;
+// 	}
+// 	%orig(duration);
+// }
 
-- (CGFloat)minimumPressDuration {
-	if (self.orn_lp) {
-		return 200000.00;
-	}
-	return %orig;
-}
+// - (CGFloat)minimumPressDuration {
+// 	if (self.orn_lp) {
+// 		return 200000.00;
+// 	}
+// 	return %orig;
+// }
 
--(void)setDelay:(CGFloat)delay {
-	if (self.orn_lp) {
-		delay = 0.0;
-	}
-	%orig(delay);
-}
+// -(void)setDelay:(CGFloat)delay {
+// 	if (self.orn_lp) {
+// 		delay = 0.0;
+// 	}
+// 	%orig(delay);
+// }
 
-- (void)setDelegate:(id)delegate {
-	if (self.orn_lp) {
-		delegate = nil;
-	}
-	%orig(delegate);
-}
-%end
+// - (void)setDelegate:(id)delegate {
+// 	if (self.orn_lp) {
+// 		delegate = nil;
+// 	}
+// 	%orig(delegate);
+// }
+// %end
 
-%hook UIPanGestureRecognizer
-%property (nonatomic, retain) NSNumber *firstTouch;
+// %hook UIPanGestureRecognizer
+// %property (nonatomic, retain) NSNumber *firstTouch;
 
--(void)touchesBegan:(NSSet *)touches withEvent:(id)arg2 {
-	if (@available(iOS 11, *)) {
-		if (self.name && [self.name isEqualToString:@"com.apple.UIKit.PreviewPlatterPan"]) {
-			if (touches) {
-				NSArray *allTouches = [touches allObjects];
-				if ([allTouches count] > 0) {
-					UITouch *touch = [allTouches objectAtIndex:0];
-					self.firstTouch = @(touch.timestamp);
-				}
-			}
-		}
-	}
-	%orig;
-}
+// -(void)touchesBegan:(NSSet *)touches withEvent:(id)arg2 {
+// 	if (@available(iOS 11, *)) {
+// 		if (self.name && [self.name isEqualToString:@"com.apple.UIKit.PreviewPlatterPan"]) {
+// 			if (touches) {
+// 				NSArray *allTouches = [touches allObjects];
+// 				if ([allTouches count] > 0) {
+// 					UITouch *touch = [allTouches objectAtIndex:0];
+// 					self.firstTouch = @(touch.timestamp);
+// 				}
+// 			}
+// 		}
+// 	}
+// 	%orig;
+// }
 
--(void)touchesMoved:(NSSet *)touches withEvent:(id)arg2 {
-	if (@available(iOS 11, *)) {
-		if (self.name && [self.name isEqualToString:@"com.apple.UIKit.PreviewPlatterPan"]) {
-			if (touches) {
-				NSArray *allTouches = [touches allObjects];
-				if ([allTouches count] > 0) {
-					UITouch *touch = [allTouches objectAtIndex:0];
-					if (touch.force > 5.6 && self.firstTouch && (touch.timestamp - [self.firstTouch floatValue]) > 0.35) {
-						if ([self delegate]) {
-							if ([[self delegate] isKindOfClass:NSClassFromString(@"_UIPreviewPlatterPanController")]) {
-								_UIPreviewPlatterPanController *panController = ((_UIPreviewPlatterPanController  *)[self delegate]);
-								if ([panController delegate] && [[panController delegate] isKindOfClass:NSClassFromString(@"_UIPreviewPlatterPresentationController")]) {
-									_UIPreviewPlatterPresentationController *presentationController = ((_UIPreviewPlatterPresentationController *)[panController delegate]);
-									[self setState: UIGestureRecognizerStateEnded];
-									[presentationController _handlePlatterActionTapGesture:self];
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-	%orig;
-}
+// -(void)touchesMoved:(NSSet *)touches withEvent:(id)arg2 {
+// 	if (@available(iOS 11, *)) {
+// 		if (self.name && [self.name isEqualToString:@"com.apple.UIKit.PreviewPlatterPan"]) {
+// 			if (touches) {
+// 				NSArray *allTouches = [touches allObjects];
+// 				if ([allTouches count] > 0) {
+// 					UITouch *touch = [allTouches objectAtIndex:0];
+// 					if (touch.force > 5.6 && self.firstTouch && (touch.timestamp - [self.firstTouch floatValue]) > 0.35) {
+// 						if ([self delegate]) {
+// 							if ([[self delegate] isKindOfClass:NSClassFromString(@"_UIPreviewPlatterPanController")]) {
+// 								_UIPreviewPlatterPanController *panController = ((_UIPreviewPlatterPanController  *)[self delegate]);
+// 								if ([panController delegate] && [[panController delegate] isKindOfClass:NSClassFromString(@"_UIPreviewPlatterPresentationController")]) {
+// 									_UIPreviewPlatterPresentationController *presentationController = ((_UIPreviewPlatterPresentationController *)[panController delegate]);
+// 									[self setState: UIGestureRecognizerStateEnded];
+// 									[presentationController _handlePlatterActionTapGesture:self];
+// 								}
+// 							}
+// 						}
+// 					}
+// 				}
+// 			}
+// 		}
+// 	}
+// 	%orig;
+// }
 
-%end
+// %end
 
 %hook _UIContextMenuStyle
 %property (nonatomic, retain) NSNumber *orn_Special;
